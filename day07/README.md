@@ -3,8 +3,8 @@
 ## Learning Goals
 In this project, you will learn to:
 * Use persistent storage in the form of Redis
-* Make meaningful design decisions (and be able to defend them!) regarding the tools, given specifications/requirements
-* Design own classes and their appropriate methods
+* Make meaningful design decisions (and be able to defend them!) regarding which data structure(s) to use given specifications/requirements
+* Design classes and their appropriate methods
 * Learn and understand the functionality of the basic components of a search engine
 * Write testable code, and test effectively
 
