@@ -7,13 +7,32 @@ import java.io.IOException;
 import java.util.*;
 
 public class Indexer {
-    private static Map<String, Map<String, Integer>> indexingData = new HashMap<>();
-    private static WikiFetcher wf = new WikiFetcher();
-    private static Set<String> STOP_WORDS;
+    private class UrlScore {
+        public String url;
+        public Integer score;
 
-    public static void indexPage(Elements page, String url) throws IOException {
+        public UrlScore(String url, Integer score) {
+            this.url = url;
+            this.score = score;
+        }
+    }
+
+    private Map<String, Map<String, Integer>> indexingData = new HashMap<>();
+    private Map<String, Set<UrlScore>> redisSub;
+    private WikiFetcher wf = new WikiFetcher();
+    private Set<String> STOP_WORDS;
+    private static Indexer singletonInstance;
+
+    protected Indexer() throws IOException {
         if (STOP_WORDS == null) STOP_WORDS = StopWords.getStopWords();
+    }
 
+    public static Indexer getInstance() throws IOException {
+        if (singletonInstance == null) singletonInstance = new Indexer();
+        return singletonInstance;
+    }
+
+    public void indexPage(Elements page, String url) throws IOException {
         Map<String, Integer> index = new HashMap<>();
 
         for (Element paragraph : page) {
@@ -23,7 +42,7 @@ public class Indexer {
         indexingData.put(url, index);
     }
 
-    public static void countWords(Element paragraph, Map<String, Integer> index) {
+    public void countWords(Element paragraph, Map<String, Integer> index) {
         List<String> words = new ArrayList<>(Arrays.asList(paragraph.ownText().split(" ")));
 
         Integer count;
@@ -40,11 +59,23 @@ public class Indexer {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        String url = "https://en.wikipedia.org/wiki/Java_(programming_language)";
-        Elements page = wf.fetchWikipedia(url);
+    public void translateData() {
+        for (Map.Entry<String, Map<String,Integer>> e : indexingData.entrySet()) {
 
-        indexPage(page, url);
+        }
+    }
+
+    public void getPagesContainingTerm(String term) {
+        // returns top 3 results
+
+    }
+
+    public static void main(String[] args) throws IOException {
+        Indexer i = new Indexer();
+        String url = "https://en.wikipedia.org/wiki/Java_(programming_language)";
+        Elements page = i.wf.fetchWikipedia(url);
+
+        i.indexPage(page, url);
 
     }
 
