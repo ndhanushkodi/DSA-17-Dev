@@ -23,7 +23,7 @@ public class Indexer {
     private Set<String> STOP_WORDS;
     private static Indexer singletonInstance;
 
-    protected Indexer() throws IOException {
+    private Indexer() throws IOException {
         if (STOP_WORDS == null) STOP_WORDS = StopWords.getStopWords();
     }
 
