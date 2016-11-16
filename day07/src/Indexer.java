@@ -101,7 +101,7 @@ public class Indexer {
 
         i.indexPage(page, url);
         i.sendToRedis();
-        i.getDataFromRedis("objects");
+        List<String> shit = i.getDataFromRedis("objects");
     }
 
     public void sendToRedis() throws IOException {
@@ -119,7 +119,9 @@ public class Indexer {
     }
 
     public List<String> getDataFromRedis(String word) {
+        List<String> res = new ArrayList<>();
         Map<String, String> m = jedis.hgetAll(word);
-        return null;
+        res.addAll(m.keySet());
+        return res;
     }
 }
