@@ -17,33 +17,33 @@ public class Crawler {
         this.visited = new HashSet<>();
     }
 
-    public Elements crawl(String url) throws IOException {
+    public void crawl(String url) throws IOException {
         q.add(new Object[]{url, 1});
         visited.add(url);
-        crawlHelper();
+        crawlHelper(2, 3); // Crawl depth 2, first 5 links.
     }
 
-    public void crawlHelper() throws IOException {
+    public void crawlHelper(int depth, int firstN) throws IOException {
 
         while (!q.isEmpty()) {
 
             Object[] urlDepth = q.remove();
             String url = (String) urlDepth[0];
-            int depth = (Integer) urlDepth[1];
+            int currDepth = (Integer) urlDepth[1];
 
             Elements page = fetcher.fetchWikipedia(url);
             Indexer.indexPage(page, url);
 
-            if (depth >= 1)
+            if (currDepth >= depth)
                 continue;
 
             List<String> neighbors = getHyperlinks(page);
 
-            for (String u : neighbors.subList(0, Math.min(neighbors.size(), 10))) {
+            for (String u : neighbors.subList(0, Math.min(neighbors.size(), firstN))) {
 
                 if (!visited.contains(u)) {
                     visited.add(u);
-                    q.add(new Object[]{u, depth + 1});
+                    q.add(new Object[]{u, currDepth + 1});
                 }
             }
 
@@ -65,8 +65,8 @@ public class Crawler {
     public static void main(String[] args) throws IOException {
         Crawler c = new Crawler();
         String url = "https://en.wikipedia.org/wiki/Java_(programming_language)";
-        Elements page = c.fetcher.fetchWikipedia(url);
-
-        c.getHyperlinks(page);
+//        Elements page = c.fetcher.fetchWikipedia(url);
+        c.crawl(url);
+//        c.getHyperlinks(page);
     }
 }
