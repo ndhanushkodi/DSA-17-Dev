@@ -8,31 +8,42 @@ public class Crawler {
 
     WikiFetcher fetcher;
     Queue<Object[]> q;
+    Set<String> visited;
 
     public Crawler() {
         this.fetcher = new WikiFetcher();
         this.q = new LinkedList<>();
+        this.visited = new HashSet<>();
     }
 
-    public Elements crawl(String url, int depth) {
-
-        return null;
+    public Elements crawl(String url) throws IOException {
+        q.add(new Object[]{url, 1});
+        visited.add(url);
+        crawlHelper();
     }
 
     public void crawlHelper() throws IOException {
 
-        Set<String> visited = new HashSet<>();
         while (!q.isEmpty()) {
+
             Object[] urlDepth = q.remove();
             String url = (String) urlDepth[0];
             int depth = (Integer) urlDepth[1];
 
-            if (visited.contains(url))
+            Elements page = fetcher.fetchWikipedia(url);
+            Indexer.indexPage(page, url);
+
+            if (depth >= 1)
                 continue;
 
-            Elements page = fetcher.fetchWikipedia(url);
-            for (String u : getHyperlinks(page).subList(0, 10)) {
+            List<String> neighbors = getHyperlinks(page);
 
+            for (String u : neighbors.subList(0, Math.min(neighbors.size(), 10))) {
+
+                if (!visited.contains(u)) {
+                    visited.add(u);
+                    q.add(new Object[]{u, depth + 1});
+                }
             }
 
         }
