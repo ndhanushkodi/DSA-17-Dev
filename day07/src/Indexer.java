@@ -11,18 +11,7 @@ import java.util.*;
 
 public class Indexer {
 
-    private class UrlScore {
-        public String url;
-        public Integer score;
-
-        public UrlScore(String url, Integer score) {
-            this.url = url;
-            this.score = score;
-        }
-    }
-
     private Map<String, Map<String, Integer>> indexingData = new HashMap<>();
-    private Map<String, Set<UrlScore>> redisSub;
     private WikiFetcher wf = new WikiFetcher();
     private Set<String> STOP_WORDS;
     private static Indexer singletonInstance;
@@ -65,15 +54,43 @@ public class Indexer {
         }
     }
 
-    public Map<String, Map<String, Integer>> translateData() {
+    public Map<String, Map<String,Integer>> translateData() {
+        Map<String, Map<String, Integer>> redisSub = new HashMap<>();
         for (Map.Entry<String, Map<String,Integer>> e : indexingData.entrySet()) {
+            String url = e.getKey();
+            Map<String, Integer> index = e.getValue();
 
+            for (Map.Entry<String, Integer> entry : index.entrySet()) {
+                String term = entry.getKey();
+                Integer score = entry.getValue();
+
+                Map<String, Integer> pages = redisSub.get(term);
+                if (pages == null) {
+                    pages = new HashMap<>();
+                }
+
+                pages.put(url, score);
+
+                redisSub.put(term, pages);
+            }
         }
-        return null;
+
+        indexingData.clear();
+        return redisSub;
     }
 
-    public void getPagesContainingTerm(String term) {
-        // returns top 3 results
+    public List<String> getPagesContainingTerm(String term) {
+        // getDataFromRedis();
+        Map<String, Map<String, Integer>> index = translateData();
+        List<String> relevantPages;
+
+        Map<String, Integer> urls = index.get(term);
+
+        if (urls == null && urls.size() == 0) {
+            return null;
+        }
+
+        return null;
 
     }
 
@@ -83,7 +100,8 @@ public class Indexer {
         Elements page = i.wf.fetchWikipedia(url);
 
         i.indexPage(page, url);
-
+        i.sendToRedis();
+        i.getDataFromRedis("objects");
     }
 
     public void sendToRedis() throws IOException {
@@ -101,6 +119,7 @@ public class Indexer {
     }
 
     public List<String> getDataFromRedis(String word) {
-
+        Map<String, String> m = jedis.hgetAll(word);
+        return null;
     }
 }
