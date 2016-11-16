@@ -1,5 +1,8 @@
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
+import utilities.JedisMaker;
 import utilities.StopWords;
 import utilities.WikiFetcher;
 
@@ -7,6 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Indexer {
+
     private class UrlScore {
         public String url;
         public Integer score;
@@ -59,10 +63,11 @@ public class Indexer {
         }
     }
 
-    public void translateData() {
+    public Map<String, Map<String, Integer>> translateData() {
         for (Map.Entry<String, Map<String,Integer>> e : indexingData.entrySet()) {
 
         }
+        return null;
     }
 
     public void getPagesContainingTerm(String term) {
@@ -79,7 +84,18 @@ public class Indexer {
 
     }
 
-    public void sendToRedis() {
-        // Translate and send indexingData to Redis
+    public void sendToRedis() throws IOException {
+        Jedis jedis = JedisMaker.make();
+        Transaction t = jedis.multi();
+        Map<String, Map<String, Integer>> wordToUrlScore = translateData();
+        for (String word : wordToUrlScore.keySet()) {
+            Map<String, Integer> urlScore = wordToUrlScore.get(word);
+            for (String url : urlScore.keySet()) {
+                int count = urlScore.get(url);
+                t.hset(word, url, Integer.toString(count));
+            }
+        }
+        t.exec();
+
     }
 }
