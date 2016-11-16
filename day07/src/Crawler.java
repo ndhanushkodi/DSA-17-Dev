@@ -32,6 +32,7 @@ public class Crawler {
             int currDepth = (Integer) urlDepth[1];
 
             Elements page = fetcher.fetchWikipedia(url);
+            Indexer.getInstance().indexPage(page, url);
 
             if (currDepth >= depth)
                 continue;
