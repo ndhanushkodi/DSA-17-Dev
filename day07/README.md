@@ -27,6 +27,7 @@ following components:
 
 ### Crawler Requirements
 * Your Crawler's job is to, given a page, locate and retrieve hyperlinks to other pages. It can keep doing this for as long as you want (you may choose to only look at that page, or all pages 1 hyperlinks away, or all pages 3 hyperlinks away). You decide based on how much time and space is required.
+* For every page it "crawls" to, it asks the Indexer to index that page.
 * A test class that verifies your Crawler's functionality.
 
 ### Indexer Requirements
