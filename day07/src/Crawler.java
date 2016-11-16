@@ -1,3 +1,4 @@
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import utilities.WikiFetcher;
 
@@ -40,6 +41,21 @@ public class Crawler {
     }
 
     public List<String> getHyperlinks(Elements page) {
+        Elements aTags = page.select("a");
+        List<String> links = new ArrayList<>(aTags.size());
 
+        for (Element e : aTags) {
+            links.add(e.attr("abs:href"));
+        }
+
+        return links;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Crawler c = new Crawler();
+        String url = "https://en.wikipedia.org/wiki/Java_(programming_language)";
+        Elements page = c.fetcher.fetchWikipedia(url);
+
+        c.getHyperlinks(page);
     }
 }
