@@ -26,8 +26,10 @@ public class Indexer {
     private WikiFetcher wf = new WikiFetcher();
     private Set<String> STOP_WORDS;
     private static Indexer singletonInstance;
+    private Jedis jedis;
 
     private Indexer() throws IOException {
+        jedis = JedisMaker.make();
         if (STOP_WORDS == null) STOP_WORDS = StopWords.getStopWords();
     }
 
@@ -85,7 +87,7 @@ public class Indexer {
     }
 
     public void sendToRedis() throws IOException {
-        Jedis jedis = JedisMaker.make();
+        jedis = JedisMaker.make();
         Transaction t = jedis.multi();
         Map<String, Map<String, Integer>> wordToUrlScore = translateData();
         for (String word : wordToUrlScore.keySet()) {
@@ -96,6 +98,9 @@ public class Indexer {
             }
         }
         t.exec();
+    }
+
+    public List<String> getDataFromRedis(String word) {
 
     }
 }
