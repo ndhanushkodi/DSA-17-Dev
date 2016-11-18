@@ -28,6 +28,6 @@ IDE, that's fine. Here's how to install IntelliJ:
 - `./bin/idea.sh  # this runs IntelliJ`
 - Set up IntelliJ according to your preferences!
 
-## Getting started with the code
+# Play around with IntelliJ
 
-Modify `ListClientExample` to use an ArrayList instead of a LinkedList.
+Try to make and execute some classes, create some unit tests, and try to get acclimated with the environment. If you have any questions, make sure to email the instructors!
