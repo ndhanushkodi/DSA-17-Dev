@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class BinarySearchTree<T extends Comparable<T>> {
+public class BinarySearchTreeSoln<T extends Comparable<T>> {
     private Node root;
     private int size;
 
@@ -101,7 +101,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     private void inOrderTraversal(Node node, List<T> list) {
-        // TODO: Implement this method
+        if (node != null) {
+            inOrderTraversal(node.leftChild, list);
+            list.add((T) node.key);
+            inOrderTraversal(node.rightChild, list);
+        }
     }
 
     /**
@@ -206,13 +210,39 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     private Node findPredecessor(Node n) {
-        // TODO: Implement this method
-        return null;
+        Node predecessor;
+        if (n.leftChild != null) {
+            predecessor = n.leftChild;
+            while (predecessor.rightChild != null) {
+                predecessor = predecessor.rightChild;
+            }
+        } else {
+            predecessor = n.parent;
+            while (predecessor != null && n.equals(predecessor.leftChild)) {
+                n = predecessor;
+                predecessor = predecessor.parent;
+            }
+        }
+
+        return predecessor;
     }
 
     private Node findSuccessor(Node n) {
-        // TODO: Implement this method
-        return null;
+        Node successor;
+        if (n.rightChild != null) {
+            successor = n.rightChild;
+            while (successor.leftChild != null) {
+                successor = successor.leftChild;
+            }
+        } else {
+            successor = n.parent;
+            while (successor != null && n.equals(successor.rightChild)) {
+                n = successor;
+                successor = successor.parent;
+            }
+        }
+
+        return successor;
     }
 
     /**
