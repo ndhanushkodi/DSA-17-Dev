@@ -31,4 +31,4 @@ Briefly describe the key differences and improvements between MyLinearMap and My
 
 ## Problems
 
-Fill in the missing functions in AirTrafficControl.java following the instructions in the file.
+Complete the function 'countUnique(int[] arr)', which should take in an unsorted list of integers and return the number of unique integers in the list.  Your solution should run in `O(n)` time.  For example, given the list `[0, 5, 6, 5, 9, 1, 6, 5, 3]`, the function should return `6`.
