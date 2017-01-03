@@ -1,18 +1,22 @@
 /**
- * DSA Day05 HW Challenge Problem
+ * DSA Day05 HW Challenge Problems
  */
+
+import java.util.List;
+import java.util.ArrayList;
 
 public class HashMapProblems {
 
     public static int countUnique(int[] arr) {
-        // Setup hashmap to keep track of elements
-        MyHashMap<Integer, Integer> countElements = new MyHashMap<>();
+        // Return the number of unique elements in the input array
 
-        for (int i : arr) {
-            countElements.put(i, i);
-        }
+        // TODO: Your code here
+    }
 
-        return countElements.size();
+    public static List<Integer> removeDuplicates(int[] arr) {
+        // Return a list of the unique elements in the input array
+
+        // TODO: Your code here
     }
 
 }

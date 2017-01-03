@@ -31,4 +31,6 @@ Briefly describe the key differences and improvements between MyLinearMap and My
 
 ## Problems
 
-Complete the function 'countUnique(int[] arr)', which should take in an unsorted list of integers and return the number of the unique integers in the list.  Your solution should run in `O(n)` time.  For example, given the list `[0, 5, 6, 5, 9, 1, 6, 5, 3]`, the function should return `6`.
+* Complete the function 'countUnique(int[] arr)', which should take in an unsorted list of integers and return the number of unique integers in the list.  For example, given the list `[0, 5, 6, 5, 9, 1, 6, 5, 3]`, the function should return `6`.  Describe the runtime complexity of your solution in a comment as well as how your solution would differ if you did not have the HashMap data structure.
+
+* Complete the function `removeDuplicates(int[] arr), which should take in an unsorted list of integers and return a List of integers (`List<Integer>`) with the unique integers in the list.  For example, given the list '[0, 5, 6, 5, 9, 1, 6, 5, 3]', the function should return '[0, 1, 3, 5, 6, 9]'.  Describe the runtime complexity of your solution in a comment as well as how your solution would differ if you did not have the HashMap data structure.
