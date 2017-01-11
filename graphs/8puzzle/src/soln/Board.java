@@ -76,20 +76,18 @@ public class Board {
     }
 
 
-    public boolean equals(Object y) {
+    public boolean equals(Board y) {
         // Check if the board equals an input Board object
         if (y == this) return true;
         if (y == null) return false;
-        if (y.getClass() != this.getClass()) return false;
-        Board that = (Board) y;
         // Check if the same size
-        if (that.tiles.length != n || that.tiles[0].length != n) {
+        if (y.tiles.length != n || y.tiles[0].length != n) {
             return false;
         }
         // Check if the same tile configuration
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (this.tiles[i][j] != that.tiles[i][j]) {
+                if (this.tiles[i][j] != y.tiles[i][j]) {
                     return false;
                 }
             }

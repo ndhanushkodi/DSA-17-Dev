@@ -118,7 +118,7 @@ public class Solver {
             System.out.println("No solution");
         else {
             for (Board board : solver.solution())
-                board.printBoard(board.tiles);
+                board.printBoard();
         }
     }
 
